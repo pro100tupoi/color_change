@@ -5,18 +5,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:gravity="center_horizontal"
     tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/btnShowDialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Выбрать цвет"/>
 
     <View
         android:id="@+id/colorPreview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:background="#FFFFFF"/>
+        android:background="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnShowDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Выбрать цвет" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvRgb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RGB: 255, 255, 255"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/tvHex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="HEX: #FFFFFF"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
 </LinearLayout>

@@ -12,6 +12,23 @@
         android:layout_height="100dp"
         android:layout_marginBottom="16dp"/>
 
+    <!-- Color info -->
+    <TextView
+        android:id="@+id/tvRgbDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="RGB: 255, 255, 255"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvHexDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="HEX: #FFFFFF"
+        android:layout_marginBottom="16dp"/>
+
     <!-- Red -->
     <LinearLayout
         android:layout_width="match_parent"
