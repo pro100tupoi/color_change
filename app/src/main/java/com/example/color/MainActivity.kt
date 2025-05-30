@@ -7,12 +7,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.color.databinding.ActivityMainBinding
+import com.example.color.databinding.DialogColorPickerBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -33,47 +32,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showColorPickerDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_color_picker, null)
-
-        val dialogColorPreview = dialogView.findViewById<View>(R.id.dialogColorPreview)
-        val etRed = dialogView.findViewById<EditText>(R.id.etRed)
-        val etGreen = dialogView.findViewById<EditText>(R.id.etGreen)
-        val etBlue = dialogView.findViewById<EditText>(R.id.etBlue)
-        val sbRed = dialogView.findViewById<SeekBar>(R.id.sbRed)
-        val sbGreen = dialogView.findViewById<SeekBar>(R.id.sbGreen)
-        val sbBlue = dialogView.findViewById<SeekBar>(R.id.sbBlue)
-        val btnConfirm = dialogView.findViewById<Button>(R.id.btnConfirm)
-        val tvHexDialog = dialogView.findViewById<TextView>(R.id.tvHexDialog)
-        val tvRgbDialog = dialogView.findViewById<TextView>(R.id.tvRgbDialog)
+        val dialogBinding = DialogColorPickerBinding.inflate(LayoutInflater.from(this))
 
         // Установка начальных значений
-        sbRed.max = 255
-        sbGreen.max = 255
-        sbBlue.max = 255
+        dialogBinding.sbRed.max = 255
+        dialogBinding.sbGreen.max = 255
+        dialogBinding.sbBlue.max = 255
 
-        sbRed.progress = currentRed
-        sbGreen.progress = currentGreen
-        sbBlue.progress = currentBlue
+        dialogBinding.sbRed.progress = currentRed
+        dialogBinding.sbGreen.progress = currentGreen
+        dialogBinding.sbBlue.progress = currentBlue
 
-        etRed.setText(currentRed.toString())
-        etGreen.setText(currentGreen.toString())
-        etBlue.setText(currentBlue.toString())
+        dialogBinding.etRed.setText(currentRed.toString())
+        dialogBinding.etGreen.setText(currentGreen.toString())
+        dialogBinding.etBlue.setText(currentBlue.toString())
 
-        updateDialogViews(dialogColorPreview, tvHexDialog, tvRgbDialog, currentRed, currentGreen, currentBlue)
+        updateDialogViews(dialogBinding.dialogColorPreview, dialogBinding.tvHexDialog, dialogBinding.tvRgbDialog,
+            currentRed, currentGreen, currentBlue)
 
         // Обработчик SeekBar
         val seekBarListener = object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    val red = sbRed.progress
-                    val green = sbGreen.progress
-                    val blue = sbBlue.progress
+                    val red = dialogBinding.sbRed.progress
+                    val green = dialogBinding.sbGreen.progress
+                    val blue = dialogBinding.sbBlue.progress
 
-                    etRed.setText(red.toString())
-                    etGreen.setText(green.toString())
-                    etBlue.setText(blue.toString())
+                    dialogBinding.etRed.setText(red.toString())
+                    dialogBinding.etGreen.setText(green.toString())
+                    dialogBinding.etBlue.setText(blue.toString())
 
-                    updateDialogViews(dialogColorPreview, tvHexDialog, tvRgbDialog, red, green, blue)
+                    // Обновляем диалоговое окно
+                    updateDialogViews(dialogBinding.dialogColorPreview, dialogBinding.tvHexDialog,
+                        dialogBinding.tvRgbDialog, red, green, blue)//ЦИА
                 }
             }
 
@@ -81,9 +72,9 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {}
         }
 
-        sbRed.setOnSeekBarChangeListener(seekBarListener)
-        sbGreen.setOnSeekBarChangeListener(seekBarListener)
-        sbBlue.setOnSeekBarChangeListener(seekBarListener)
+        dialogBinding.sbRed.setOnSeekBarChangeListener(seekBarListener)
+        dialogBinding.sbGreen.setOnSeekBarChangeListener(seekBarListener)
+        dialogBinding.sbBlue.setOnSeekBarChangeListener(seekBarListener)
 
         // Обработчик EditText
         val textWatcher = object : TextWatcher {
@@ -91,34 +82,35 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 try {
-                    val red = etRed.text.toString().takeIf { it.isNotEmpty() }?.toInt()?.coerceIn(0, 255) ?: 0
-                    val green = etGreen.text.toString().takeIf { it.isNotEmpty() }?.toInt()?.coerceIn(0, 255) ?: 0
-                    val blue = etBlue.text.toString().takeIf { it.isNotEmpty() }?.toInt()?.coerceIn(0, 255) ?: 0
+                    val red = dialogBinding.etRed.text.toString().takeIf { it.isNotEmpty() }?.toInt()?.coerceIn(0, 255) ?: 0
+                    val green = dialogBinding.etGreen.text.toString().takeIf { it.isNotEmpty() }?.toInt()?.coerceIn(0, 255) ?: 0
+                    val blue = dialogBinding.etBlue.text.toString().takeIf { it.isNotEmpty() }?.toInt()?.coerceIn(0, 255) ?: 0
 
-                    sbRed.progress = red
-                    sbGreen.progress = green
-                    sbBlue.progress = blue
+                    dialogBinding.sbRed.progress = red
+                    dialogBinding.sbGreen.progress = green
+                    dialogBinding.sbBlue.progress = blue
 
-                    updateDialogViews(dialogColorPreview, tvHexDialog, tvRgbDialog, red, green, blue)
+                    updateDialogViews(dialogBinding.dialogColorPreview, dialogBinding.tvHexDialog,
+                        dialogBinding.tvRgbDialog, red, green, blue)
                 } catch (e: NumberFormatException) {
                     // Игнорируем неверный ввод
                 }
             }
         }
 
-        etRed.addTextChangedListener(textWatcher)
-        etGreen.addTextChangedListener(textWatcher)
-        etBlue.addTextChangedListener(textWatcher)
+        dialogBinding.etRed.addTextChangedListener(textWatcher)
+        dialogBinding.etGreen.addTextChangedListener(textWatcher)
+        dialogBinding.etBlue.addTextChangedListener(textWatcher)
 
         val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
+            .setView(dialogBinding.root)
             .setTitle("Выберите цвет")
             .create()
 
-        btnConfirm.setOnClickListener {
-            currentRed = sbRed.progress
-            currentGreen = sbGreen.progress
-            currentBlue = sbBlue.progress
+        dialogBinding.btnConfirm.setOnClickListener {
+            currentRed = dialogBinding.sbRed.progress
+            currentGreen = dialogBinding.sbGreen.progress
+            currentBlue = dialogBinding.sbBlue.progress
             updateMainViews(currentRed, currentGreen, currentBlue)
             dialog.dismiss()
         }
