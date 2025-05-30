@@ -16,9 +16,9 @@ import com.example.color.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var currentRed = 255
-    private var currentGreen = 255
-    private var currentBlue = 255
+    private var currentRed = 100
+    private var currentGreen = 125
+    private var currentBlue = 150
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
